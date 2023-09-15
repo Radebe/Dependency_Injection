@@ -7,12 +7,93 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Orgoffering.Data;
 using Orgoffering.Models;
+using Orgoffering.Repository;
 
 namespace Orgoffering.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly DependencyDBContext _context;
+        private readonly IProductRepository _productRepository;
+        public ProductsController(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
+        }
+
+        public IActionResult Index()
+        {
+            List<Product> product = _productRepository.GetAllProducts();
+            return View(product);
+        }
+
+        public IActionResult Details(Guid id)
+        {
+            Product product = _productRepository.GetProductById(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Product product)
+        {
+            try
+            {
+                _productRepository.AddProduct(product);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Product", ex.Message); // Add a custom error message to ModelState.
+                return View(product);
+            }
+
+        }
+
+        public IActionResult Edit(Guid id)
+        {
+            Product product = _productRepository.GetProductById(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _productRepository.UpdateProduct(product);
+                return RedirectToAction("Index");
+            }
+            return View(product);
+        }
+
+        public IActionResult Delete(Guid id)
+        {
+            Product product = _productRepository.GetProductById(id);
+            if (product == null)
+            {
+                return NotFound(); // Return a 404 error if the product is not found
+            }
+            return View(product);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(Guid id)
+        {
+            _productRepository.DeleteProduct(id);
+            return RedirectToAction("Index");
+        }
+        /*private readonly DependencyDBContext _context;
 
         public ProductsController(DependencyDBContext context)
         {
@@ -159,6 +240,6 @@ namespace Orgoffering.Controllers
         private bool ProductExists(Guid id)
         {
           return (_context.Products?.Any(e => e.ProductId == id)).GetValueOrDefault();
-        }
+        }*/
     }
 }

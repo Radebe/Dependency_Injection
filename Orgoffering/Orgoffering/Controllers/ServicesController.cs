@@ -19,14 +19,114 @@ namespace Orgoffering.Controllers
             _serviceRepository = serviceRepository;
         }
 
+        public IActionResult Index()
+        {
+            List<Service> services = _serviceRepository.GetAllServices();
+            return View(services);
+        }
+
+        public IActionResult Details(Guid id)
+        {
+            Service service = _serviceRepository.GetServiceById(id);
+            if (service == null)
+            {
+                return NotFound();
+            }
+            return View(service);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(Service service)
+        {
+            try
+            {
+                _serviceRepository.AddService(service);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("ServiceId", ex.Message); // Add a custom error message to ModelState.
+                return View(service);
+            }
+
+        }
+
+        public IActionResult Edit(Guid id)
+        {
+            Service service = _serviceRepository.GetServiceById(id);
+            if (service == null)
+            {
+                return NotFound();
+            }
+            return View(service);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Service service)
+        {
+            if (ModelState.IsValid)
+            {
+                _serviceRepository.UpdateService(service);
+                return RedirectToAction("Index");
+            }
+            return View(service);
+        }
+
+        public IActionResult Delete(Guid id)
+        {
+            Service service = _serviceRepository.GetServiceById(id);
+            if (service == null)
+            {
+                return NotFound(); // Return a 404 error if the product is not found
+            }
+            return View(service);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(Guid id)
+        {
+            _serviceRepository.DeleteService(id);
+            return RedirectToAction("Index");
+        }
+
         // GET: Services
-        public async Task<IActionResult> Index()
+        /*public async Task<IActionResult> Index()
         {
             return View(_serviceRepository.GetAll());
         }
+
+        // GET: Services/Create
+        public IActionResult Create()
+        {
+
+            return View();
+        }
+
+        [HttpPost] // This action handles the POST request to create a new product
+        public IActionResult Create(Service service)
+        {
+            if (ModelState.IsValid)
+            {
+                // Call the service method to add the product
+                _serviceRepository.AddProduct(service);
+
+                // Redirect to the product list or another appropriate action
+                return RedirectToAction("Index");
+            }
+
+            // If the model is not valid, return to the create form with validation errors
+            return View(service);
+        }
+
+
     }
 
-   /* public class ServicesController : Controller
+    public class ServicesController : Controller
     {
         private readonly DependencyDBContext _context;
 
@@ -177,4 +277,5 @@ namespace Orgoffering.Controllers
           return (_context.Services?.Any(e => e.ServiceId == id)).GetValueOrDefault();
         }
     }*/
+    }
 }
