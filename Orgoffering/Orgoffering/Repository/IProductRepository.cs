@@ -2,12 +2,8 @@
 
 namespace Orgoffering.Repository
 {
-    public interface IProductRepository
+    public interface IProductRepository : IGenericRepository<Product>
     {
-        List<Product> GetAllProducts();
-        void AddProduct(Product product);
-        void UpdateProduct(Product products);
-        void DeleteProduct(Guid productId);
-        Product GetProductById(Guid productId);
+       
     }
 }

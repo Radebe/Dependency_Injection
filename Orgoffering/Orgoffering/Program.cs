@@ -20,6 +20,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
  builder.Services.AddTransient<IServiceRepository, ServiceRepository>();
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 

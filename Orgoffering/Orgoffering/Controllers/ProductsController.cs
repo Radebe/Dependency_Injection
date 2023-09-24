@@ -21,13 +21,13 @@ namespace Orgoffering.Controllers
 
         public IActionResult Index()
         {
-            List<Product> product = _productRepository.GetAllProducts();
+            IEnumerable<Product> product = _productRepository.GetAllEntities();
             return View(product);
         }
 
         public IActionResult Details(Guid id)
         {
-            Product product = _productRepository.GetProductById(id);
+            Product product = _productRepository.GetEntityById(id);
             if (product == null)
             {
                 return NotFound();
@@ -45,7 +45,7 @@ namespace Orgoffering.Controllers
         {
             try
             {
-                _productRepository.AddProduct(product);
+                _productRepository.AddEntity(product);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -58,7 +58,7 @@ namespace Orgoffering.Controllers
 
         public IActionResult Edit(Guid id)
         {
-            Product product = _productRepository.GetProductById(id);
+            Product product = _productRepository.GetEntityById(id);
             if (product == null)
             {
                 return NotFound();
@@ -71,7 +71,7 @@ namespace Orgoffering.Controllers
         {
             if (ModelState.IsValid)
             {
-                _productRepository.UpdateProduct(product);
+                _productRepository.UpdateEntity(product);
                 return RedirectToAction("Index");
             }
             return View(product);
@@ -79,7 +79,7 @@ namespace Orgoffering.Controllers
 
         public IActionResult Delete(Guid id)
         {
-            Product product = _productRepository.GetProductById(id);
+            Product product = _productRepository.GetEntityById(id);
             if (product == null)
             {
                 return NotFound(); // Return a 404 error if the product is not found
@@ -90,7 +90,7 @@ namespace Orgoffering.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(Guid id)
         {
-            _productRepository.DeleteProduct(id);
+            _productRepository.DeleteEntity(id);
             return RedirectToAction("Index");
         }
         /*private readonly DependencyDBContext _context;

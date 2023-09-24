@@ -11136,11 +11136,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\OneDrive\\Desktop\\IT Dev\\Design patterns\\Orgoffering\\Orgoffering\\Orgoffering.csproj",
+      "projectUniqueName": "C:\\Users\\User\\source\\repos\\Radebe\\Dependency_Injection\\Orgoffering\\Orgoffering\\Orgoffering.csproj",
       "projectName": "Orgoffering",
-      "projectPath": "C:\\Users\\User\\OneDrive\\Desktop\\IT Dev\\Design patterns\\Orgoffering\\Orgoffering\\Orgoffering.csproj",
+      "projectPath": "C:\\Users\\User\\source\\repos\\Radebe\\Dependency_Injection\\Orgoffering\\Orgoffering\\Orgoffering.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\OneDrive\\Desktop\\IT Dev\\Design patterns\\Orgoffering\\Orgoffering\\obj\\",
+      "outputPath": "C:\\Users\\User\\source\\repos\\Radebe\\Dependency_Injection\\Orgoffering\\Orgoffering\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
